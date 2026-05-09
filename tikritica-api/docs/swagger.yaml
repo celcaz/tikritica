@@ -1,0 +1,674 @@
+basePath: /api
+definitions:
+  model.Book:
+    properties:
+      author:
+        type: string
+      averageRating:
+        type: number
+      coverUrl:
+        type: string
+      createdAt:
+        type: string
+      description:
+        type: string
+      genres:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      isbn:
+        type: string
+      pages:
+        type: integer
+      ratingsCount:
+        type: integer
+      releaseDate:
+        type: string
+      slug:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.DiaryEntry:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      mediaId:
+        type: string
+      mediaType:
+        type: string
+      rating:
+        type: integer
+      reviewId:
+        type: string
+      userId:
+        type: string
+      watchedAt:
+        type: string
+    type: object
+  model.Game:
+    properties:
+      averageRating:
+        type: number
+      coverUrl:
+        type: string
+      createdAt:
+        type: string
+      description:
+        type: string
+      developer:
+        type: string
+      genres:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      platforms:
+        items:
+          type: string
+        type: array
+      publisher:
+        type: string
+      ratingsCount:
+        type: integer
+      releaseDate:
+        type: string
+      slug:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.List:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      isPublic:
+        type: boolean
+      itemsCount:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        type: string
+    type: object
+  model.Movie:
+    properties:
+      averageRating:
+        type: number
+      coverUrl:
+        type: string
+      createdAt:
+        type: string
+      description:
+        type: string
+      director:
+        type: string
+      genres:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      ratingsCount:
+        type: integer
+      releaseDate:
+        type: string
+      runtime:
+        type: integer
+      slug:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.Review:
+    properties:
+      containsSpoilers:
+        type: boolean
+      content:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      likesCount:
+        type: integer
+      mediaId:
+        type: string
+      mediaType:
+        type: string
+      rating:
+        type: integer
+      updatedAt:
+        type: string
+      userId:
+        type: string
+    type: object
+  model.Series:
+    properties:
+      averageRating:
+        type: number
+      coverUrl:
+        type: string
+      createdAt:
+        type: string
+      creator:
+        type: string
+      description:
+        type: string
+      episodes:
+        type: integer
+      genres:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      ratingsCount:
+        type: integer
+      releaseDate:
+        type: string
+      seasons:
+        type: integer
+      slug:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  model.User:
+    properties:
+      avatarUrl:
+        type: string
+      bio:
+        type: string
+      createdAt:
+        type: string
+      displayName:
+        type: string
+      followersCount:
+        type: integer
+      followingCount:
+        type: integer
+      id:
+        type: string
+      listsCount:
+        type: integer
+      reviewsCount:
+        type: integer
+      username:
+        type: string
+    type: object
+  response.ErrorResponse:
+    properties:
+      error:
+        example: error message
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API REST for Tikritica platform.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Tikritica API
+  version: "1.0"
+paths:
+  /api/books:
+    get:
+      description: Get a list of all books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Book'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: List all books
+      tags:
+      - books
+  /api/books/{slug}:
+    get:
+      description: Get details of a specific book by its slug
+      parameters:
+      - description: Book Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Book'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get book by slug
+      tags:
+      - books
+  /api/diary:
+    get:
+      description: Get diary entries for the current user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.DiaryEntry'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get user diary
+      tags:
+      - diary
+    post:
+      consumes:
+      - application/json
+      description: Create a new diary entry
+      parameters:
+      - description: Diary entry data
+        in: body
+        name: entry
+        required: true
+        schema:
+          $ref: '#/definitions/model.DiaryEntry'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.DiaryEntry'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create diary entry
+      tags:
+      - diary
+  /api/feed:
+    get:
+      description: Get feed of activities from followed users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              additionalProperties: true
+              type: object
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get activity feed
+      tags:
+      - social
+  /api/follow/{userId}:
+    delete:
+      description: Unfollow a user you are currently following
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Unfollow a user
+      tags:
+      - social
+    post:
+      description: Follow another user
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Follow a user
+      tags:
+      - social
+  /api/games:
+    get:
+      description: Get a list of all games
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Game'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: List all games
+      tags:
+      - games
+  /api/games/{slug}:
+    get:
+      description: Get details of a specific game by its slug
+      parameters:
+      - description: Game Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Game'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get game by slug
+      tags:
+      - games
+  /api/lists/{id}:
+    get:
+      description: Get details of a specific list
+      parameters:
+      - description: List ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.List'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get list by ID
+      tags:
+      - lists
+  /api/movies:
+    get:
+      description: Get a list of all movies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Movie'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: List all movies
+      tags:
+      - movies
+  /api/movies/{slug}:
+    get:
+      description: Get details of a specific movie by its slug
+      parameters:
+      - description: Movie Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Movie'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get movie by slug
+      tags:
+      - movies
+  /api/reviews:
+    post:
+      consumes:
+      - application/json
+      description: Create a new review for a media item
+      parameters:
+      - description: Review data
+        in: body
+        name: review
+        required: true
+        schema:
+          $ref: '#/definitions/model.Review'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Review'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Create a new review
+      tags:
+      - reviews
+  /api/reviews/{id}:
+    get:
+      description: Get details of a specific review
+      parameters:
+      - description: Review ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Review'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get review by ID
+      tags:
+      - reviews
+  /api/series:
+    get:
+      description: Get a list of all series
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Series'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: List all series
+      tags:
+      - series
+  /api/series/{slug}:
+    get:
+      description: Get details of a specific series by its slug
+      parameters:
+      - description: Series Slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Series'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get series by slug
+      tags:
+      - series
+  /api/users/{username}:
+    get:
+      description: Get user profile by username
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get user profile
+      tags:
+      - users
+  /health:
+    get:
+      description: Check if the API is running
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Health Check
+      tags:
+      - health
+swagger: "2.0"
