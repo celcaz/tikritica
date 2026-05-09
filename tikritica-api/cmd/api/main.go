@@ -71,7 +71,10 @@ func main() {
 	// Protected routes (require auth)
 	protectedMux := http.NewServeMux()
 	h.RegisterProtectedRoutes(protectedMux)
+	// Step 1: Wrap protected auth routes with cookie-based auth middleware.
 	mux.Handle("/api/auth/refresh", middleware.Auth(cfg.JWTSecret)(protectedMux))
+	mux.Handle("/api/auth/logout", middleware.Auth(cfg.JWTSecret)(protectedMux))
+	mux.Handle("/api/auth/me", middleware.Auth(cfg.JWTSecret)(protectedMux))
 
 	// Swagger UI
 	mux.HandleFunc("GET /swagger/", httpSwagger.WrapHandler)

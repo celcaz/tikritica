@@ -125,6 +125,10 @@ func (uc *UseCase) Refresh(ctx context.Context, userID string) (*AuthResponse, e
 	return &AuthResponse{Token: token, User: user}, nil
 }
 
+func (uc *UseCase) GetUser(ctx context.Context, userID string) (*entity.User, error) {
+	return uc.repo.GetByID(ctx, userID)
+}
+
 func (uc *UseCase) generateToken(userID string) (string, error) {
 	claims := jwt.MapClaims{
 		"sub": userID,

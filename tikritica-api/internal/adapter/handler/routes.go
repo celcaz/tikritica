@@ -47,4 +47,6 @@ func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
 
 func (h *Handler) RegisterProtectedRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/auth/refresh", h.refresh)
+	mux.HandleFunc("POST /api/auth/logout", h.logout)
+	mux.HandleFunc("GET /api/auth/me", h.me)
 }

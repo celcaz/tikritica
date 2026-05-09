@@ -3,7 +3,6 @@ package middleware
 import (
 	"context"
 	"net/http"
-	"strings"
 
 	"github.com/celio/tikritica-api/pkg/response"
 	"github.com/golang-jwt/jwt/v5"
@@ -18,17 +17,14 @@ func Auth(jwtSecret string) func(http.Handler) http.Handler {
 
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			header := r.Header.Get("Authorization")
-			if header == "" {
-				response.Error(w, http.StatusUnauthorized, "authorization header required")
+			// Step 1: Read the token from the HttpOnly cookie only.
+			cookie, err := r.Cookie("authToken")
+			if err != nil || cookie.Value == "" {
+				response.Error(w, http.StatusUnauthorized, "auth cookie required")
 				return
 			}
 
-			tokenString, found := strings.CutPrefix(header, "Bearer ")
-			if !found {
-				response.Error(w, http.StatusUnauthorized, "invalid authorization format")
-				return
-			}
+			tokenString := cookie.Value
 
 			token, err := jwt.Parse(tokenString, func(t *jwt.Token) (any, error) {
 				if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
