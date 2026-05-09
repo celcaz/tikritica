@@ -1,4 +1,6 @@
 import { Component, inject } from '@angular/core';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
@@ -7,7 +9,7 @@ import { AuthFacade } from '../../state/auth.facade';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, InputTextModule, ButtonModule],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -22,11 +24,16 @@ export class LoginComponent {
   });
 
   submit(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const { email, password } = this.form.getRawValue();
     if (!email || !password) return;
     this.auth.login({ email, password });
   }
 
-  goToRegister(): void { this.router.navigate(['/register']); }
+  goToRegister(): void {
+    this.router.navigate(['/register']);
+  }
 }

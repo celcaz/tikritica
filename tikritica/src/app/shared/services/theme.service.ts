@@ -17,7 +17,7 @@ export class ThemeService {
 
   private apply(dark: boolean): void {
     this.isDark.set(dark);
-    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.classList.toggle('my-app-dark', dark);
     localStorage.setItem(this.STORAGE_KEY, dark ? 'dark' : 'light');
   }
 }

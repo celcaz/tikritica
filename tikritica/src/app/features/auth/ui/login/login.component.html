@@ -3,12 +3,12 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div>
     <label for="email">Email</label>
-    <input id="email" type="email" formControlName="email" />
+    <input pInputText id="email" type="email" formControlName="email" />
   </div>
 
   <div>
     <label for="password">Senha</label>
-    <input id="password" type="password" formControlName="password" />
+    <input pInputText id="password" type="password" formControlName="password" />
   </div>
 
   <div>
@@ -19,7 +19,7 @@
   </div>
 
   <div>
-    <button type="submit">Entrar</button>
+    <button pButton type="submit">Entrar</button>
   </div>
 
   <div>
@@ -27,7 +27,7 @@
   </div>
 
   <div>
-    <button type="button" (click)="goToRegister()">Criar conta</button>
+    <button pButton type="button" (click)="goToRegister()">Criar conta</button>
   </div>
 
   @if (auth.status() === 'loading') {
