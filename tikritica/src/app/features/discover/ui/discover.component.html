@@ -18,3 +18,15 @@
     <li>Nenhum filme encontrado.</li>
   }
 </ul>
+
+signal store
+<ul>
+  @for (movie of movieStore.movies(); track movie.id) {
+    <li>
+      <img src="{{ movie.coverUrl }}" alt="{{ movie.title }} poster" width="100" />
+      {{ movie.title }}
+    </li>
+  } @empty {
+    <li>Nenhum filme encontrado.</li>
+  }
+</ul>

@@ -35,8 +35,10 @@ export const MovieSignalStore = signalStore(
         switchMap(() =>
           movieRepository.findAll().pipe(
             tapResponse({
-              next: (movies: Movie[]) => patchState(store, { movies, status: 'success', error: null }),
-              error: (err: unknown) => patchState(store, { status: 'error', error: toMessage(err) }),
+              next: (movies: Movie[]) =>
+                patchState(store, { movies, status: 'success', error: null }),
+              error: (err: unknown) =>
+                patchState(store, { status: 'error', error: toMessage(err) }),
             }),
           ),
         ),
@@ -49,8 +51,10 @@ export const MovieSignalStore = signalStore(
         switchMap((slug) =>
           movieRepository.findBySlug(slug).pipe(
             tapResponse({
-              next: (movie: Movie) => patchState(store, { selectedMovie: movie, status: 'success', error: null }),
-              error: (err: unknown) => patchState(store, { status: 'error', error: toMessage(err) }),
+              next: (movie: Movie) =>
+                patchState(store, { selectedMovie: movie, status: 'success', error: null }),
+              error: (err: unknown) =>
+                patchState(store, { status: 'error', error: toMessage(err) }),
             }),
           ),
         ),
