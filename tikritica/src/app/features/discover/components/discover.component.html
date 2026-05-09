@@ -1,8 +1,20 @@
 <h1>Descobrir</h1>
-<p>Voce esta autenticado. Aqui vamos listar midias.</p>
+
+@if (movieFacade.status() === 'loading') {
+  <p>Carregando...</p>
+}
+
+@if (movieFacade.error()) {
+  <p>Erro ao carregar filmes.</p>
+}
 
 <ul>
   @for (movie of movieFacade.movies(); track movie.id) {
-    <li>{{ movie.title }}</li>
+    <li>
+      <img src="{{ movie.coverUrl }}" alt="{{ movie.title }} poster" width="100" />
+      {{ movie.title }}
+    </li>
+  } @empty {
+    <li>Nenhum filme encontrado.</li>
   }
 </ul>

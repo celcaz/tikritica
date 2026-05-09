@@ -9,4 +9,8 @@ import { MovieFacade } from '../../movie/store/movie.facade';
 })
 export class DiscoverComponent {
   protected readonly movieFacade = inject(MovieFacade);
+
+  constructor() {
+    this.movieFacade.getMovies();
+  }
 }

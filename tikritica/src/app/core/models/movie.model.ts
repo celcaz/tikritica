@@ -2,6 +2,7 @@ export interface Movie {
   id: string;
   title: string;
   slug: string;
+  coverUrl: string | null;
   releaseDate: string;
   rating: number;
   posterUrl: string;
