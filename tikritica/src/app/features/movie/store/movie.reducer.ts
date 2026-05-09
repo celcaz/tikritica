@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { MovieState } from '../../../core/models/movie.model';
+import { MovieState } from '../domain/movie.model';
 import {
   movieBySlugFailed,
   movieBySlugRequested,

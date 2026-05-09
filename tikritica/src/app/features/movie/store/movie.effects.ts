@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { MovieService } from '../../../core/services/movie.service';
+import { MovieRepository } from '../data/movie.repository';
 import {
   movieBySlugFailed,
   movieBySlugRequested,
@@ -14,12 +14,12 @@ import { catchError, map, of, switchMap } from 'rxjs';
 @Injectable()
 export class MovieEffects {
   actions$ = inject(Actions);
-  movieService = inject(MovieService);
+  movieRepository = inject(MovieRepository);
 
   getMovies$ = createEffect(() =>
     this.actions$.pipe(ofType(moviesRequested)).pipe(
       switchMap(() =>
-        this.movieService.getMovies().pipe(
+        this.movieRepository.findAll().pipe(
           map((movies) => moviesSucceeded({ movies })),
           catchError((error) => of(moviesFailed({ error: this.toMessage(error) }))),
         ),
@@ -30,7 +30,7 @@ export class MovieEffects {
   getMovieBySlug$ = createEffect(() =>
     this.actions$.pipe(ofType(movieBySlugRequested)).pipe(
       switchMap(({ slug }) =>
-        this.movieService.getMoviesBySlug(slug).pipe(
+        this.movieRepository.findBySlug(slug).pipe(
           map((movie) => movieBySlugSucceeded({ movie })),
           catchError((error) => of(movieBySlugFailed({ error: this.toMessage(error) }))),
         ),

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
-import { AuthFacade } from '../../store/auth.facade';
+import { AuthFacade } from '../../state/auth.facade';
 
 @Component({
   selector: 'app-login',
@@ -22,18 +22,11 @@ export class LoginComponent {
   });
 
   submit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     const { email, password } = this.form.getRawValue();
     if (!email || !password) return;
-
     this.auth.login({ email, password });
   }
 
-  goToRegister(): void {
-    this.router.navigate(['/register']);
-  }
+  goToRegister(): void { this.router.navigate(['/register']); }
 }

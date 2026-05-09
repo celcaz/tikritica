@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthFacade } from '../../store/auth.facade';
+import { AuthFacade } from '../../state/auth.facade';
 
 @Component({
   selector: 'app-register',
@@ -23,23 +23,11 @@ export class RegisterComponent {
   });
 
   submit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     const { username, displayName, email, password } = this.form.getRawValue();
     if (!username || !email || !password) return;
-
-    this.auth.register({
-      username,
-      displayName: displayName || undefined,
-      email,
-      password,
-    });
+    this.auth.register({ username, displayName: displayName || undefined, email, password });
   }
 
-  goToLogin(): void {
-    this.router.navigate(['/login']);
-  }
+  goToLogin(): void { this.router.navigate(['/login']); }
 }

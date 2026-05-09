@@ -1,19 +1,19 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Movie } from '../models/movie.model';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { Movie } from '../domain/movie.model';
+
 @Injectable({ providedIn: 'root' })
-export class MovieService {
+export class MovieApi {
   private readonly baseUrl = '/api';
   private readonly http = inject(HttpClient);
 
-  constructor() {}
   getMovies(): Observable<Movie[]> {
     return this.http.get<Movie[]>(`${this.baseUrl}/movies`);
   }
 
-  getMoviesBySlug(slug: string): Observable<Movie> {
+  getMovieBySlug(slug: string): Observable<Movie> {
     return this.http.get<Movie>(`${this.baseUrl}/movies/${slug}`);
   }
 }

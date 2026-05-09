@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 
-import { MovieState } from '../../../core/models/movie.model';
+import { MovieState } from '../domain/movie.model';
 import { movieBySlugRequested, moviesRequested } from './movie.actions';
 import { selectMovies, selectMoviesError, selectMoviesStatus, selectSelectedMovie } from './movie.selectors';
 

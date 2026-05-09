@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { MovieState } from '../../../core/models/movie.model';
+import { MovieState } from '../domain/movie.model';
 
 export const selectMovieState = createFeatureSelector<MovieState>('movies');
 

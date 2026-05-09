@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AuthFacade } from '../../features/auth/store/auth.facade';
+import { AuthFacade } from '../../features/auth/state/auth.facade';
 
 @Injectable({ providedIn: 'root' })
 export class AppStartupService {

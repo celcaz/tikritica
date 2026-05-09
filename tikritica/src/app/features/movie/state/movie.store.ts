@@ -4,8 +4,8 @@ import { patchState, signalStore, withComputed, withMethods, withState } from '@
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
 
-import { Movie, MovieState } from '../../../core/models/movie.model';
-import { MovieService } from '../../../core/services/movie.service';
+import { Movie, MovieState } from '../domain/movie.model';
+import { MovieRepository } from '../data/movie.repository';
 
 function toMessage(error: unknown): string {
   if (error && typeof error === 'object' && 'error' in error) {
@@ -28,12 +28,12 @@ export const MovieSignalStore = signalStore(
     hasError: computed(() => store.status() === 'error'),
     hasMovies: computed(() => store.movies().length > 0),
   })),
-  withMethods((store, movieService = inject(MovieService)) => ({
+  withMethods((store, movieRepository = inject(MovieRepository)) => ({
     getMovies: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { status: 'loading', error: null })),
         switchMap(() =>
-          movieService.getMovies().pipe(
+          movieRepository.findAll().pipe(
             tapResponse({
               next: (movies: Movie[]) => patchState(store, { movies, status: 'success', error: null }),
               error: (err: unknown) => patchState(store, { status: 'error', error: toMessage(err) }),
@@ -47,7 +47,7 @@ export const MovieSignalStore = signalStore(
       pipe(
         tap(() => patchState(store, { status: 'loading', error: null })),
         switchMap((slug) =>
-          movieService.getMoviesBySlug(slug).pipe(
+          movieRepository.findBySlug(slug).pipe(
             tapResponse({
               next: (movie: Movie) => patchState(store, { selectedMovie: movie, status: 'success', error: null }),
               error: (err: unknown) => patchState(store, { status: 'error', error: toMessage(err) }),
