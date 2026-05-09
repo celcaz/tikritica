@@ -1,0 +1,8 @@
+<h1>Descobrir</h1>
+<p>Voce esta autenticado. Aqui vamos listar midias.</p>
+
+<ul>
+  @for (movie of movieFacade.movies(); track movie.id) {
+    <li>{{ movie.title }}</li>
+  }
+</ul>

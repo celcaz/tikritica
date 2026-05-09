@@ -1,0 +1,39 @@
+<h1>Criar conta</h1>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div>
+    <label for="username">Username</label>
+    <input id="username" type="text" formControlName="username" />
+  </div>
+
+  <div>
+    <label for="displayName">Nome de exibicao</label>
+    <input id="displayName" type="text" formControlName="displayName" />
+  </div>
+
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" />
+  </div>
+
+  <div>
+    <label for="password">Senha</label>
+    <input id="password" type="password" formControlName="password" />
+  </div>
+
+  <div>
+    <button type="submit">Registrar</button>
+  </div>
+
+  <div>
+    <button type="button" (click)="goToLogin()">Voltar para login</button>
+  </div>
+
+  @if (auth.status() === 'loading') {
+    <div>Carregando...</div>
+  }
+
+  @if (auth.error(); as error) {
+    <div>Erro: {{ error }}</div>
+  }
+</form>

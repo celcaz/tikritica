@@ -10,8 +10,10 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 
 import { routes } from './app.routes';
-import { authReducer } from './auth/store/auth.reducer';
-import { AuthEffects } from './auth/store/auth.effects';
+import { authReducer } from './features/auth/store/auth.reducer';
+import { AuthEffects } from './features/auth/store/auth.effects';
+import { MovieEffects } from './features/movie/store/movie.effects';
+import { MovieReducer } from './features/movie/store/movie.reducer';
 
 const withCredentialsInterceptor: HttpInterceptorFn = (req, next) => {
   // Step 1: Always send cookies to the API for cookie-based auth.
@@ -24,7 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withFetch(), withInterceptors([withCredentialsInterceptor])),
-    provideStore({ auth: authReducer }),
-    provideEffects([AuthEffects]),
+    provideStore({ auth: authReducer, movies: MovieReducer }),
+    provideEffects([AuthEffects, MovieEffects]),
   ],
 };
