@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
+
 import { AuthService } from '../../../core/services/auth.service';
 import {
   loginFailed,
@@ -94,17 +95,6 @@ export class AuthEffects {
         ofType(loginSucceeded, registerSucceeded),
         tap(() => {
           this.router.navigate(['/discover']);
-        }),
-      ),
-    { dispatch: false },
-  );
-
-  refreshFailedRedirect$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(refreshFailed, meFailed),
-        tap(() => {
-          this.router.navigate(['/login']);
         }),
       ),
     { dispatch: false },
