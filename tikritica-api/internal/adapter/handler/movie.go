@@ -13,7 +13,7 @@ import (
 // @Description  Get a list of all movies
 // @Tags         movies
 // @Produce      json
-// @Success      200  {array}   model.Movie
+// @Success      200  {array}   entity.Movie
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /api/movies [get]
 func (h *Handler) listMovies(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ func (h *Handler) listMovies(w http.ResponseWriter, r *http.Request) {
 // @Tags         movies
 // @Produce      json
 // @Param        slug   path      string  true  "Movie Slug"
-// @Success      200    {object}  model.Movie
+// @Success      200    {object}  entity.Movie
 // @Failure      404    {object}  response.ErrorResponse
 // @Failure      500    {object}  response.ErrorResponse
 // @Router       /api/movies/{slug} [get]

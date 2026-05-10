@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	_ "github.com/celio/tikritica-api/docs"
 	"github.com/celio/tikritica-api/internal/adapter/handler"
 	"github.com/celio/tikritica-api/internal/adapter/repository/postgres"
 	"github.com/celio/tikritica-api/internal/infra/config"
@@ -15,6 +16,7 @@ import (
 	gameuc "github.com/celio/tikritica-api/internal/usecase/game"
 	movieuc "github.com/celio/tikritica-api/internal/usecase/movie"
 	seriesuc "github.com/celio/tikritica-api/internal/usecase/series"
+	useruc "github.com/celio/tikritica-api/internal/usecase/user"
 	"github.com/joho/godotenv"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
@@ -61,9 +63,10 @@ func main() {
 	gameUC := gameuc.NewUseCase(gameRepo)
 	bookUC := bookuc.NewUseCase(bookRepo)
 	authUC := authuc.NewUseCase(userRepo, cfg.JWTSecret)
+	userUC := useruc.NewUseCase(userRepo)
 
 	// Handler
-	h := handler.New(movieUC, seriesUC, gameUC, bookUC, authUC)
+	h := handler.New(movieUC, seriesUC, gameUC, bookUC, authUC, userUC)
 
 	mux := http.NewServeMux()
 	h.RegisterRoutes(mux)

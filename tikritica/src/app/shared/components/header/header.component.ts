@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
+import { AuthFacade } from '../../../features/auth/state/auth.facade';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +9,5 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class HeaderComponent {
   protected readonly themeService = inject(ThemeService);
+  readonly authFacade = inject(AuthFacade);
 }

@@ -6,6 +6,7 @@ import (
 	gameuc "github.com/celio/tikritica-api/internal/usecase/game"
 	movieuc "github.com/celio/tikritica-api/internal/usecase/movie"
 	seriesuc "github.com/celio/tikritica-api/internal/usecase/series"
+	useruc "github.com/celio/tikritica-api/internal/usecase/user"
 )
 
 type Handler struct {
@@ -14,6 +15,7 @@ type Handler struct {
 	GameUC   *gameuc.UseCase
 	BookUC   *bookuc.UseCase
 	AuthUC   *authuc.UseCase
+	UserUC   *useruc.UseCase
 }
 
 func New(
@@ -22,6 +24,7 @@ func New(
 	gameUC *gameuc.UseCase,
 	bookUC *bookuc.UseCase,
 	authUC *authuc.UseCase,
+	userUC *useruc.UseCase,
 ) *Handler {
 	return &Handler{
 		MovieUC:  movieUC,
@@ -29,5 +32,6 @@ func New(
 		GameUC:   gameUC,
 		BookUC:   bookUC,
 		AuthUC:   authUC,
+		UserUC:   userUC,
 	}
 }

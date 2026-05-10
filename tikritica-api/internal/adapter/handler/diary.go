@@ -9,7 +9,7 @@ import (
 // @Description  Get diary entries for the current user
 // @Tags         diary
 // @Produce      json
-// @Success      200  {array}   model.DiaryEntry
+// @Success      200  {array}   entity.DiaryEntry
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /api/diary [get]
 func (h *Handler) getDiary(w http.ResponseWriter, r *http.Request) {
@@ -22,8 +22,8 @@ func (h *Handler) getDiary(w http.ResponseWriter, r *http.Request) {
 // @Tags         diary
 // @Accept       json
 // @Produce      json
-// @Param        entry  body      model.DiaryEntry  true  "Diary entry data"
-// @Success      201    {object}  model.DiaryEntry
+// @Param        entry  body      entity.DiaryEntry  true  "Diary entry data"
+// @Success      201    {object}  entity.DiaryEntry
 // @Failure      400    {object}  response.ErrorResponse
 // @Failure      500    {object}  response.ErrorResponse
 // @Router       /api/diary [post]

@@ -13,7 +13,7 @@ import (
 // @Description  Get a list of all games
 // @Tags         games
 // @Produce      json
-// @Success      200  {array}   model.Game
+// @Success      200  {array}   entity.Game
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /api/games [get]
 func (h *Handler) listGames(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ func (h *Handler) listGames(w http.ResponseWriter, r *http.Request) {
 // @Tags         games
 // @Produce      json
 // @Param        slug   path      string  true  "Game Slug"
-// @Success      200    {object}  model.Game
+// @Success      200    {object}  entity.Game
 // @Failure      404    {object}  response.ErrorResponse
 // @Failure      500    {object}  response.ErrorResponse
 // @Router       /api/games/{slug} [get]

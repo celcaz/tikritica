@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { AuthFacade } from '../../state/auth.facade';
 
@@ -14,7 +14,6 @@ import { AuthFacade } from '../../state/auth.facade';
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
   protected readonly auth = inject(AuthFacade);
 
   readonly form = this.fb.group({
@@ -31,9 +30,5 @@ export class LoginComponent {
     const { email, password } = this.form.getRawValue();
     if (!email || !password) return;
     this.auth.login({ email, password });
-  }
-
-  goToRegister(): void {
-    this.router.navigate(['/register']);
   }
 }

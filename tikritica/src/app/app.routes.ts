@@ -12,4 +12,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/discover/discover.routes').then((m) => m.discoverRoutes),
     canMatch: [authGuard],
   },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./features/user-profile/user-profile.routes').then((m) => m.userProfileRoutes),
+    canMatch: [authGuard],
+  },
 ];

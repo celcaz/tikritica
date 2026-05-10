@@ -40,7 +40,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Book"
+                                "$ref": "#/definitions/entity.Book"
                             }
                         }
                     },
@@ -76,7 +76,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Book"
+                            "$ref": "#/definitions/entity.Book"
                         }
                     },
                     "404": {
@@ -110,7 +110,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.DiaryEntry"
+                                "$ref": "#/definitions/entity.DiaryEntry"
                             }
                         }
                     },
@@ -141,7 +141,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.DiaryEntry"
+                            "$ref": "#/definitions/entity.DiaryEntry"
                         }
                     }
                 ],
@@ -149,7 +149,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/model.DiaryEntry"
+                            "$ref": "#/definitions/entity.DiaryEntry"
                         }
                     },
                     "400": {
@@ -299,7 +299,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Game"
+                                "$ref": "#/definitions/entity.Game"
                             }
                         }
                     },
@@ -335,7 +335,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Game"
+                            "$ref": "#/definitions/entity.Game"
                         }
                     },
                     "404": {
@@ -376,7 +376,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.List"
+                            "$ref": "#/definitions/entity.List"
                         }
                     },
                     "404": {
@@ -410,7 +410,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Movie"
+                                "$ref": "#/definitions/entity.Movie"
                             }
                         }
                     },
@@ -446,7 +446,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Movie"
+                            "$ref": "#/definitions/entity.Movie"
                         }
                     },
                     "404": {
@@ -484,7 +484,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.Review"
+                            "$ref": "#/definitions/entity.Review"
                         }
                     }
                 ],
@@ -492,7 +492,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/model.Review"
+                            "$ref": "#/definitions/entity.Review"
                         }
                     },
                     "400": {
@@ -533,7 +533,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Review"
+                            "$ref": "#/definitions/entity.Review"
                         }
                     },
                     "404": {
@@ -567,7 +567,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Series"
+                                "$ref": "#/definitions/entity.Series"
                             }
                         }
                     },
@@ -603,7 +603,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Series"
+                            "$ref": "#/definitions/entity.Series"
                         }
                     },
                     "404": {
@@ -644,7 +644,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/entity.User"
                         }
                     },
                     "404": {
@@ -687,7 +687,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.Book": {
+        "entity.Book": {
             "type": "object",
             "properties": {
                 "author": {
@@ -737,7 +737,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.DiaryEntry": {
+        "entity.DiaryEntry": {
             "type": "object",
             "properties": {
                 "createdAt": {
@@ -766,7 +766,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Game": {
+        "entity.Game": {
             "type": "object",
             "properties": {
                 "averageRating": {
@@ -819,7 +819,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.List": {
+        "entity.List": {
             "type": "object",
             "properties": {
                 "createdAt": {
@@ -848,7 +848,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Movie": {
+        "entity.Movie": {
             "type": "object",
             "properties": {
                 "averageRating": {
@@ -895,7 +895,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Review": {
+        "entity.Review": {
             "type": "object",
             "properties": {
                 "containsSpoilers": {
@@ -930,7 +930,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.Series": {
+        "entity.Series": {
             "type": "object",
             "properties": {
                 "averageRating": {
@@ -980,7 +980,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.User": {
+        "entity.User": {
             "type": "object",
             "properties": {
                 "avatarUrl": {

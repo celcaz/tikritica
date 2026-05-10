@@ -27,7 +27,7 @@
   </div>
 
   <div>
-    <button pButton type="button" (click)="goToRegister()">Criar conta</button>
+    <a routerLink="/register">Criar conta</a>
   </div>
 
   @if (auth.status() === 'loading') {

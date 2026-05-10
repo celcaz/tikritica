@@ -1,70 +1,111 @@
 # Estrutura do Frontend — Tikritica
 
-Stack: Angular 19 (standalone), NgRx, TypeScript
+Stack: Angular 19 (standalone), NgRx + @ngrx/signals, PrimeNG, Tailwind CSS v4, TypeScript
 
 ## Visão geral
 
 ```
 tikritica/
 ├── src/
-│   ├── main.ts                         # Bootstrap da aplicação
-│   ├── styles.css                      # Estilos globais
+│   ├── main.ts                              Bootstrap da aplicação
+│   ├── styles.css                           Tailwind + @custom-variant dark
 │   └── app/
-│       ├── app.ts                      # Componente raiz
-│       ├── app.html                    # Template raiz
-│       ├── app.css                     # Estilos raiz
-│       ├── app.routes.ts               # Definição de rotas
-│       ├── app.config.ts               # Providers globais (NgRx, HTTP, Router)
+│       ├── app.ts                           Componente raiz — inicializa ThemeService
+│       ├── app.html                         <app-header /> + <router-outlet />
+│       ├── app.routes.ts                    Lazy loading por feature
+│       ├── app.config.ts                    Providers globais (NgRx, HTTP, PrimeNG)
 │       │
-│       ├── core/                       # Singleton — carregado uma vez, sem estado de negócio
+│       ├── core/                            Singleton — sem estado de negócio
 │       │   ├── guards/
-│       │   │   └── auth.guard.ts       # CanMatchFn — redireciona para /login se não autenticado
-│       │   ├── models/
-│       │   │   └── auth.models.ts      # Interfaces: User, AuthState, LoginRequest, etc.
+│       │   │   └── auth.guard.ts            CanMatchFn — aguarda status auth antes de avaliar
+│       │   ├── interceptors/
+│       │   │   └── credentials.interceptor.ts  withCredentials em todas as requests
 │       │   └── services/
-│       │       ├── auth.service.ts     # HTTP: login, register, refresh, me, logout
-│       │       └── app-startup.service.ts  # Restaura sessão no bootstrap
+│       │       └── app-startup.service.ts   Chama AuthFacade.refresh() no bootstrap
 │       │
-│       └── features/                   # Features lazy-loadable, auto-contidas
-│           ├── auth/
-│           │   ├── components/
-│           │   │   ├── login/
-│           │   │   │   ├── login.component.ts
-│           │   │   │   └── login.component.html
-│           │   │   └── register/
-│           │   │       ├── register.component.ts
-│           │   │       └── register.component.html
-│           │   └── store/              # NgRx slice de autenticação
-│           │       ├── auth.actions.ts     # 13 actions (login, register, refresh, me, logout)
-│           │       ├── auth.reducer.ts     # Estado: user, status, error
-│           │       ├── auth.effects.ts     # Side effects + navegação pós-auth
-│           │       ├── auth.selectors.ts   # Seletores: user$, status$, error$, isAuthenticated$
-│           │       └── auth.facade.ts      # API pública do store para os componentes
+│       ├── shared/                          Reutilizável entre features
+│       │   ├── components/
+│       │   │   └── header/
+│       │   │       ├── header.component.ts
+│       │   │       └── header.component.html  Navbar + toggle dark/light
+│       │   ├── directives/
+│       │   ├── pipes/
+│       │   ├── services/
+│       │   │   └── theme.service.ts         Signal isDark, toggle, persistência localStorage
+│       │   └── utils/
+│       │
+│       └── features/                        Features lazy-loadable, auto-contidas
 │           │
-│           └── discover/
-│               └── components/
-│                   ├── discover.component.ts
-│                   └── discover.component.html
-│
-├── docs/
-│   └── estrutura.md                    # Este arquivo
-├── angular.json
-├── package.json
-├── tsconfig.json
-└── proxy.conf.json                     # Proxy /api → backend Go em dev
+│           ├── auth/
+│           │   ├── data/
+│           │   │   ├── auth.api.ts          HTTP: login, register, refresh, me, logout
+│           │   │   └── auth.repository.ts   Abstração sobre AuthApi
+│           │   ├── domain/
+│           │   │   └── auth.models.ts       User, AuthState, LoginRequest, RegisterRequest
+│           │   ├── state/                   NgRx slice de autenticação
+│           │   │   ├── auth.actions.ts
+│           │   │   ├── auth.reducer.ts      Estado: user, status ('idle'|'loading'|'authenticated'|'error')
+│           │   │   ├── auth.effects.ts      Side effects — usa AuthRepository
+│           │   │   ├── auth.selectors.ts
+│           │   │   └── auth.facade.ts       API pública via Signals (toSignal)
+│           │   ├── ui/
+│           │   │   ├── login/
+│           │   │   └── register/
+│           │   └── auth.routes.ts           /login, /register, /forgot-password
+│           │
+│           ├── discover/
+│           │   ├── ui/
+│           │   │   ├── discover.component.ts
+│           │   │   └── discover.component.html
+│           │   └── discover.routes.ts       /discover (protegida por authGuard)
+│           │
+│           ├── movie/
+│           │   ├── data/
+│           │   │   ├── movie.api.ts         HTTP: GET /api/movies, /api/movies/{slug}
+│           │   │   └── movie.repository.ts
+│           │   ├── domain/
+│           │   │   └── movie.model.ts       Movie, MovieState
+│           │   ├── state/
+│           │   │   └── movie.store.ts       SignalStore — getMovies, getMovieBySlug
+│           │   └── store/                   NgRx alternativo (facade, actions, reducer, effects)
+│           │
+│           └── userProfile/
+│               ├── data/
+│               │   ├── userProfile.api.ts   HTTP: GET /api/users/{username}
+│               │   └── userProfile.repository.ts
+│               ├── domain/
+│               │   └── user.domain.ts       UserProfile, UserProfileState
+│               ├── ui/
+│               │   ├── profile-page/        Smart component — injeta store, passa @Input para filhos
+│               │   ├── profile-header/      Dumb component — @Input user, @Output follow
+│               │   └── profile-stats/       Dumb component — @Input counts
+│               └── userProfile.routes.ts    /profile/:username (protegida por authGuard)
 ```
 
-## Camadas e responsabilidades
+## Padrão por feature
 
-| Camada | Regra |
-|---|---|
-| `core/` | Serviços singleton (`providedIn: 'root'`). Nunca importados dentro de features. |
-| `core/models/` | Interfaces e types globais. Sem lógica. |
-| `core/services/` | Chamadas HTTP e inicialização. Sem estado local. |
-| `core/guards/` | Guards de rota. Leem o NgRx store via seletores. |
-| `features/` | Feature auto-contida. Só conhece `core/` e `shared/` (quando existir). |
-| `features/*/store/` | NgRx: actions, reducer, effects, selectors e facade por feature. |
-| `features/*/components/` | Componentes standalone. Interagem com o store via facade. |
+```
+feature/
+├── data/       api.ts (HTTP puro) + repository.ts (abstração)
+├── domain/     interfaces e types (sem lógica)
+├── state/      SignalStore (@ngrx/signals) — withState, withComputed, withMethods, rxMethod
+├── ui/         componentes standalone
+└── *.routes.ts lazy routes da feature
+```
+
+## Smart vs Dumb components
+
+| Tipo             | Responsabilidade                                                                 |
+| ---------------- | -------------------------------------------------------------------------------- |
+| **Smart** (page) | Injeta store/facade, busca dados, passa via `@Input` para filhos                 |
+| **Dumb**         | Recebe dados via `@Input`, emite eventos via `@Output`, sem dependência de store |
+
+## Dark mode
+
+- `styles.css` define `@custom-variant dark (&:where(.my-app-dark, .my-app-dark *))`
+- `ThemeService` togla a classe `.my-app-dark` no `<html>` e persiste no `localStorage`
+- PrimeNG configurado com `darkModeSelector: '.my-app-dark'`
+- Usar prefixo `dark:` nas classes Tailwind normalmente
 
 ## Fluxo de autenticação
 
@@ -73,15 +114,18 @@ main.ts
   └── AppStartupService.init()
         └── AuthFacade.refresh()
               └── [Auth] Refresh Requested
-                    └── AuthEffects.refresh$
+                    └── AuthEffects → AuthRepository → AuthApi
                           ├── OK  → refreshSucceeded → status: 'authenticated'
-                          └── ERR → refreshFailed    → navigate('/login')
+                          └── ERR → refreshFailed    → status: 'error'
+
+authGuard: aguarda status !== 'idle' && !== 'loading' antes de avaliar
 ```
 
 ## Convenções
 
 - Arquivos: `kebab-case` (`auth.facade.ts`, `login.component.ts`)
 - Classes/Interfaces: `PascalCase` (`AuthFacade`, `LoginComponent`)
-- Injeção via `inject()` (Angular 14+), sem constructor quando possível
+- Injeção via `inject()`, sem constructor DI
 - Componentes standalone (`standalone: true`) — sem NgModules
-- Propriedades do formulário inicializadas na declaração, não no constructor
+- Signals expostos via `toSignal()` no facade ou diretamente no SignalStore
+- Formulários inicializados na declaração, não no constructor

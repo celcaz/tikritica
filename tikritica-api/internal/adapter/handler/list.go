@@ -10,7 +10,7 @@ import (
 // @Tags         lists
 // @Produce      json
 // @Param        id   path      string  true  "List ID"
-// @Success      200  {object}  model.List
+// @Success      200  {object}  entity.List
 // @Failure      404  {object}  response.ErrorResponse
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /api/lists/{id} [get]

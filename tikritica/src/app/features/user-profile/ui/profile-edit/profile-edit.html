@@ -1,0 +1,15 @@
+<form [formGroup]="userInfoForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="displayName">Display Name</label>
+    <input pInputText id="displayName" formControlName="displayName" />
+  </div>
+  <div>
+    <label for="bio">Bio</label>
+    <textarea class="w-full" pInputText id="bio" formControlName="bio"></textarea>
+  </div>
+  <div>
+    <label for="avatarUrl">Avatar URL</label>
+    <input pInputText id="avatarUrl" formControlName="avatarUrl" />
+  </div>
+  <button type="submit">Save Changes</button>
+</form>

@@ -13,7 +13,7 @@ import (
 // @Description  Get a list of all series
 // @Tags         series
 // @Produce      json
-// @Success      200  {array}   model.Series
+// @Success      200  {array}   entity.Series
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /api/series [get]
 func (h *Handler) listSeries(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ func (h *Handler) listSeries(w http.ResponseWriter, r *http.Request) {
 // @Tags         series
 // @Produce      json
 // @Param        slug   path      string  true  "Series Slug"
-// @Success      200    {object}  model.Series
+// @Success      200    {object}  entity.Series
 // @Failure      404    {object}  response.ErrorResponse
 // @Failure      500    {object}  response.ErrorResponse
 // @Router       /api/series/{slug} [get]

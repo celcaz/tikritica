@@ -10,7 +10,7 @@ import (
 // @Tags         reviews
 // @Produce      json
 // @Param        id   path      string  true  "Review ID"
-// @Success      200  {object}  model.Review
+// @Success      200  {object}  entity.Review
 // @Failure      404  {object}  response.ErrorResponse
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /api/reviews/{id} [get]
@@ -25,8 +25,8 @@ func (h *Handler) getReview(w http.ResponseWriter, r *http.Request) {
 // @Tags         reviews
 // @Accept       json
 // @Produce      json
-// @Param        review  body      model.Review  true  "Review data"
-// @Success      201     {object}  model.Review
+// @Param        review  body      entity.Review  true  "Review data"
+// @Success      201     {object}  entity.Review
 // @Failure      400     {object}  response.ErrorResponse
 // @Failure      500     {object}  response.ErrorResponse
 // @Router       /api/reviews [post]

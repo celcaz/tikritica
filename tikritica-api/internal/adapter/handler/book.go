@@ -13,7 +13,7 @@ import (
 // @Description  Get a list of all books
 // @Tags         books
 // @Produce      json
-// @Success      200  {array}   model.Book
+// @Success      200  {array}   entity.Book
 // @Failure      500  {object}  response.ErrorResponse
 // @Router       /api/books [get]
 func (h *Handler) listBooks(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ func (h *Handler) listBooks(w http.ResponseWriter, r *http.Request) {
 // @Tags         books
 // @Produce      json
 // @Param        slug   path      string  true  "Book Slug"
-// @Success      200    {object}  model.Book
+// @Success      200    {object}  entity.Book
 // @Failure      404    {object}  response.ErrorResponse
 // @Failure      500    {object}  response.ErrorResponse
 // @Router       /api/books/{slug} [get]
